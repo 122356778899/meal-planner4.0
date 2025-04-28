@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMeal Planner - 智能膳食规划</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_page1.css') }}">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <h1>NutriMeal Planner</h1>
+            <nav class="nav">
+                <a href="#">首页</a>
+                <a href="#">收藏</a>
+                <a href="#">社区</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 英雄区域 -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h2>智能膳食搭配方案</h2>
+                        <p class="lead">今天晚上吃什么？</p>
+                        <p class="subtext">人生三大问题：早上吃什么？中午吃什么？晚上吃什么？</p>
+                        <button class="cta" id="randomizeButton">点击"抽盲盒"，随机生成一餐</button>
+                    </div>
+                    <div class="hero-image">
+                         
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 功能特色区 -->
+        <section class="features">
+            <div class="container">
+                <div class="features-container">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <div class="icon-background"></div>
+                            <div class="icon-shape"></div>
+                        </div>
+                        <h3>精准定制</h3>
+                        <p class="feature-description">
+                            √ 根据身高、体重、年龄等数据建模<br>
+                            √ 动态计算BMI与每日推荐摄入量
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <div class="icon-background"></div>
+                            <div class="icon-shape chart-icon"></div>
+                        </div>
+                        <h3>智能搭配</h3>
+                        <p class="feature-description">
+                            √ 基于《中国居民膳食指南》<br>
+                            √ 支持维持体重/素食/健身等多种饮食偏好
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <div class="icon-background"></div>
+                            <div class="icon-shape graph-icon"></div>
+                        </div>
+                        <h3>科学可视化</h3>
+                        <p class="feature-description">
+                            √ 热量分布环形图<br>
+                            √ 蛋白质/碳水/脂肪占比柱状图
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <div class="header-container">
+            <div class="header-content">
+                <h1 class="header-title">roll出今日食谱</h1>
+                <br>
+                <button class="cta" id="Button">前往体验</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 NutriMeal Planner. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('randomizeButton').addEventListener('click', function() {
+            window.location.href = "/page2";
+        });
+
+        document.getElementById('Button').addEventListener('click', function() {
+            window.location.href = "/page2";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMeal Planner - 智能膳食规划</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_page2.css') }}">
+</head>
+
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <h1>NutriMeal Planner</h1>
+            <nav class="nav">
+                <a href="#">首页</a>
+                <a href="#">收藏</a>
+                <a href="#">社区</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container form-container">
+            <h1>Roll出今日食谱</h1>
+            <form id="mealForm">
+                <div class="form-group">
+                    <label for="gender">性别</label>
+                    <select id="gender" name="gender">
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="height">身高（m）</label>
+                    <input type="text" id="height" name="height" placeholder="请输入身高">
+                </div>
+                <div class="form-group">
+                    <label for="weight">体重（kg）</label>
+                    <input type="text" id="weight" name="weight" placeholder="请输入体重">
+                </div>
+                <div class="form-group">
+                    <label for="age">年龄</label>
+                    <input type="number" id="age" name="age" placeholder="请输入年龄">
+                </div>
+                <div class="form-group">
+                    <label for="activity">身体活动水平</label>
+                    <select id="activity" name="activity">
+                        <option value="low">低</option>
+                        <option value="medium">中</option>
+                        <option value="high">高</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-button" id='submit-button'>下一步</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 NutriMeal Planner. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mealForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // 获取表单数据
+            const gender = document.getElementById('gender').value;
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const age = document.getElementById('age').value;
+            const activity = document.getElementById('activity').value;
+
+            // 简单的输入验证
+            if (!gender || !height || !weight || !age || !activity) {
+                alert('请填写所有必填字段');
+                return;
+            }
+
+            const formData = {
+                gender: gender,
+                height: height,
+                weight: weight,
+                activity: activity,
+                age: age
+            };
+
+            fetch('/submit_meal_info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                   window.location.href = data.redirect;
+                }
+            })
+           .catch(error => {
+                console.error('请求出错:', error);
+                alert('提交数据时出现错误，请稍后再试');
+            });
+        });
+    </script>
+</body>
+
+</html>

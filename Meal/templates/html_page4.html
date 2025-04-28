@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMeal Planner - 智能膳食规划</title>
+    <!-- 引入 Chart.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script>
+    <!-- 引入 Google 字体 -->
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
+    <!-- 引入本地 CSS 文件 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_page4.css') }}">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <h1>NutriMeal Planner</h1>
+            <nav class="nav">
+                <a href="#">首页</a>
+                <a href="#">收藏</a>
+                <a href="#">社区</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container meal-container">
+            <!-- 三餐展示区域 -->
+            <div class="meals">
+                <div class="meal">
+                    <h2>早餐</h2>
+                    <p class="dish-names">{{ meal_plan.meals.breakfast['items'] | join(', ') }}</p>
+                </div>
+                <div class="meal">
+                    <h2>午餐</h2>
+                    <p class="dish-names">{{ meal_plan.meals.lunch['items'] | join(', ') }}</p>
+                </div>
+                <div class="meal">
+                    <h2>晚餐</h2>
+                    <p class="dish-names">{{ meal_plan.meals.dinner['items'] | join(', ') }}</p>
+                </div>
+            </div>
+            <!-- 营养成分环形图 -->
+            <div class="chart-container">
+                <canvas id="nutrient-chart"></canvas>
+            </div>
+            <!-- 三餐热量占比环形图 -->
+            <div class="chart-container">
+                <canvas id="meal-calorie-chart"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 NutriMeal Planner. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 从后端获取营养成分数据
+        const nutrientData = {
+            labels: ['蛋白质', '脂肪', '碳水化合物'],
+            datasets: [{
+                data: [
+                    {{ meal_plan.totals.protein }},
+                    {{ meal_plan.totals.fat }},
+                    {{ meal_plan.totals.carbs }}
+                ],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }]
+        };
+
+        // 初始化营养成分环形图
+        const nutrientChart = new Chart(document.getElementById('nutrient-chart'), {
+            type: 'doughnut',
+            data: nutrientData
+        });
+
+        // 计算三餐热量占比数据
+        const totalCalories = {{ meal_plan.totals.calories }};
+        const mealCalorieData = {
+            labels: ['早餐', '午餐', '晚餐'],
+            datasets: [{
+                data: [
+                    {{ meal_plan.meals.breakfast.total_calories }},
+                    {{ meal_plan.meals.lunch.total_calories }},
+                    {{ meal_plan.meals.dinner.total_calories }}
+                ],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }]
+        };
+
+        // 初始化三餐热量占比环形图
+        const mealCalorieChart = new Chart(document.getElementById('meal-calorie-chart'), {
+            type: 'doughnut',
+            data: mealCalorieData
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMeal Planner - 智能膳食规划</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap  " rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_page3.css') }}">
+</head>
+
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <h1>NutriMeal Planner</h1>
+            <nav class="nav">
+                <a href="#">首页</a>
+                <a href="#">收藏</a>
+                <a href="#">社区</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container form-container">
+            <h1>Roll出今日食谱</h1>
+            <form id="mealForm" action="/submit_meal_info" method="post">
+                <div class="form-group">
+                    <label for="meal-type">选择餐别</label>
+                    <select id="meal-type" name="meal-type">
+                        <option value="breakfast">早餐</option>
+                        <option value="lunch">午餐</option>
+                        <option value="dinner">晚餐</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="weight-goal">选择目标</label>
+                    <select id="weight-goal" name="weight-goal">
+                        <option value="maintain">维持体重</option>
+                        <option value="lose">减重</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-button" id="submit">确定</button>
+                <button type="button" class="submit-button return-button" id="return">返回</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 NutriMeal Planner. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('mealForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // 阻止表单默认提交行为
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch('/submit_meal_info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+           .then(response => response.json())
+           .then(data => {
+            if (data.redirect) {
+                window.location.href = data.redirect;
+               }
+            })
+            .catch(error => {
+                console.error('请求出错:', error);
+            });
+        });
+
+        document.getElementById('return').addEventListener('click', function () {
+            window.location.href = "/page2";
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
